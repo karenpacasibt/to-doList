@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/','/task')->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+//Route::middleware(['auth', 'verified'])->group(function () {
     // Route::get('/task', [TaskController::class,'index'])->name('task.index');
     // Route::get('/task/create',[TaskController::class,'create'])->name('task.create');
     // Route::post('/task', [TaskController::class,'store'])->name('task.store');
@@ -17,7 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // TODAS LAS RUTAS ANTERIORES PUEDNE RESUMIRSE EN ESTA 
     Route::resource('task', TaskController::class);
-});
+//});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -21,8 +21,6 @@
                 </div>
             @endforeach
         </div>
-        <div class="p-6">
-            {{$tasks->links}}
-        </div>
+
     </div>
 </x-app-layout>

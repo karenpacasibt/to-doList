@@ -12,7 +12,16 @@ class CategorySeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        Tag::factory()->count(20)->create();
-    }
+    {[
+        ['name' => 'Trabajo'],
+        ['name' => 'Personal'],
+        ['name' => 'Estudios'],
+        ['name' => 'Salud'],
+        ['name' => 'Finanzas'],
+        ['name' => 'Viajes'],
+        ['name' => 'Hogar'],
+        ['name' => 'Tecnología'],
+        ['name' => 'Proyectos'],
+        ['name' => 'Recreación'],
+    ];}
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->longText('description');
             $table->boolean('status');
             $table->foreignId('id_category')->constrained('categories');
+            $table->foreignId('id_user')->constrained('users');
             $table->timestamps();
         });
     }
