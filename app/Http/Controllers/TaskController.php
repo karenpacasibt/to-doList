@@ -12,7 +12,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return 'index';
+        return view('task.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return ' create';
+        return view('task.create') ;
     }
 
     /**
@@ -28,7 +28,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        return 'store';
+        return view('task.store');
     }
 
     /**
@@ -36,7 +36,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return 'show';
+        return view('task.show');
     }
 
     /**
@@ -44,7 +44,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        return 'edit';
+        return view('task.edit');
     }
 
     /**
@@ -55,9 +55,6 @@ class TaskController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Task $task)
     {
         //
