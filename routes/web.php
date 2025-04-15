@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/','/task')->name('dashboard');
-
+//ESTA PARTE ES PARA AUTENTIFIACION DE USUARIOS PERO SE COMENATAC PARA HACER PRUEBAS
 //Route::middleware(['auth', 'verified'])->group(function () {
     // Route::get('/task', [TaskController::class,'index'])->name('task.index');
     // Route::get('/task/create',[TaskController::class,'create'])->name('task.create');
@@ -17,6 +19,9 @@ Route::redirect('/','/task')->name('dashboard');
 
     // TODAS LAS RUTAS ANTERIORES PUEDNE RESUMIRSE EN ESTA 
     Route::resource('task', TaskController::class);
+    Route::resource('tag', TagController::class);
+    Route::resource('category', CategoryController::class);
+
 //});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

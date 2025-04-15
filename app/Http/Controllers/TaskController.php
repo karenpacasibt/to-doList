@@ -20,9 +20,6 @@ class TaskController extends Controller
         return view('task.index', ['tasks' => $tasks]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('task.create');

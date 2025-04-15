@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,17 +13,19 @@ class TagSeeder extends Seeder
      */
     public function run(): void
     {
-        [
-            ['name' => 'Urgente'],
-            ['name' => 'Importante'],
-            ['name' => 'Ocio'],
-            ['name' => 'Recordatorio'],
-            ['name' => 'Trabajo en equipo'],
-            ['name' => 'Investigación'],
-            ['name' => 'Compras'],
-            ['name' => 'Reunión'],
-            ['name' => 'Llamada'],
-            ['name' => 'Email'],
-        ];
+        DB::table("tags")->insert([
+            
+                ['name' => 'Urgente'],
+                ['name' => 'Importante'],
+                ['name' => 'Ocio'],
+                ['name' => 'Recordatorio'],
+                ['name' => 'Trabajo en equipo'],
+                ['name' => 'Investigación'],
+                ['name' => 'Compras'],
+                ['name' => 'Reunión'],
+                ['name' => 'Llamada'],
+                ['name' => 'Email'],
+            
+        ]);
     }
 }
