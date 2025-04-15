@@ -6,10 +6,10 @@
 
         <title>{{ config('app.name') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-
+        <!-- esta es una manera de poner la refencia del css que utlizaremos para -->
+        <!-- pero no es la mejor en todos lo casos, es lo incorrecto-->
+        <!--<link rel="stylesheet" href="/app.css">-->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="antialiased">
         {{$slot }}
