@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Laravel\Prompts\Note;
+use Illuminate\Validation\ValidationException;
 
 class TaskController extends Controller
 {
@@ -43,7 +44,13 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //to-do:validar imput o request
+        // $request->validate([
+        //     'title' => 'required',
+        //     'description' => 'required',
+        //     'id_category' => 'nullable|integer',
+        // ]);
+        return 1;
         $task = new Task();
         $task->title = $request->title;
         $task->description = $request->description;
@@ -73,7 +80,21 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        
+        //validar
+        //si son lo mismo 
+        // $validated = $request->validate([
+        //     'title' => 'required|string',
+        //     'description' => 'required|string',
+        //     'id_category' => 'nullable|integer',
+        // ]);
+        return 1;
+        if (
+            $task->title === $validated['title'] &&
+            $task->description === $validated['description'] &&
+            $task->id_category == $validated['id_category']
+        ) {
+            return back();
+        }
         $task->title = $request->title;
         $task->description = $request->description;
         $task->id_category = $request->id_category;

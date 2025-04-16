@@ -4,13 +4,13 @@
             <form action="{{ route('task.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Title" name="title" required>
+                    <input type="text" class="form-control" placeholder="Title" name="title">
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" placeholder="Description" name="description" required></textarea>
+                    <textarea class="form-control" placeholder="Description" name="description" ></textarea>
                 </div>
                 <div class="mb-3">
-                    <select name="id_category" class="form-control" required>
+                    <select name="id_category" class="form-control">
                         <option value="">Selecciona una categoría</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -25,8 +25,9 @@
                         <div>
                             <input type="checkbox">
                             <strong>{{ $task->id }}</strong>
-                            <span class="ms-2">{{ $task->title }}</span><br>
+                            <span class="ms-2">TAREA: {{ $task->title }}</span><br>
                             <small class="text-muted">{{ Str::words($task->description, 20) }}</small>
+                            <spanclass="badge me-1" style="background-color:BLACK"></spanclass=>
                         </div>
                         <div>
                             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewTaskModal{{ $task->id }}"><i class="fas fa-eye"></i></button>
@@ -43,9 +44,15 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h2>{{ $task->title }}</h2>
+                                    <h2>{{ $task->title }}</h2> 
                                     <p>{{ $task->description }}</p>
-                                    <p>CATEGORIA. {{ App\Models\Category::where('id', $task->id_category)->first()->name }}</p>
+                                    @php
+                                        $categoryName = $categories->firstWhere('id', $task->id_category)->name ?? 'Sin categoría';
+                                    @endphp
+
+                                    <p>{{ $categoryName }}</p>
+                                    {{-- <p>{{ ($category->id == $task->id_category) ? $category->name :'Sin categoria' }}</p> --}}
+                                    {{-- <p>CATEGORIA. {{ App\Models\Category::where('id', $task->id_category)->first()->name }}</p> --}}
                                 </div>
                             </div>
                         </div>
@@ -64,18 +71,20 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" name="title" value="{{ $task->title }}" required>
+                                            <input type="text" class="form-control" name="title" value="{{ $task->title }}">
                                         </div>
                                         <div class="mb-3">
-                                            <textarea class="form-control" name="description" required>{{ $task->description }}</textarea>
+                                            <textarea class="form-control" name="description">{{ $task->description }}</textarea>
                                         </div>
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <select name="id_category" class="form-control" required>
+                                            <select name="id_category" class="form-control">
                                                 <option value="">Selecciona una categoría</option>
                                                 @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option value="{{ $category->id }}"{{ $category->id == $task->id_category ? 'selected' : '' }}>
+                                                        {{ $category->name }}</option>
+                                                    
                                                 @endforeach
                                             </select>
                                         </div>
