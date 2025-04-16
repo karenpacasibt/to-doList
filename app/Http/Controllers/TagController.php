@@ -10,7 +10,7 @@ class TagController extends Controller
     public function index()
     {
         $tags = Tag::query()
-            ->orderBy("created_at", "desc")
+            ->orderBy("created_at")
             ->paginate();
         return view("tag.index", ["tags" => $tags]);
     }
@@ -25,7 +25,9 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        Tag::create($request->all());
+        $tag = new Tag();
+        $tag->name = $request->name;
+        $tag->save();
         return redirect()->route('tag.index');
     }
 
@@ -50,7 +52,8 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        $tag->update($request->all());
+        $tag->name = $request->name;
+        $tag->save();
         return redirect()->route('tag.index');
     }
 

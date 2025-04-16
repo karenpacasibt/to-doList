@@ -11,7 +11,7 @@ class CategoryController extends Controller
     {
         $categories = Category::query()
         //->where('id_user',request()->user()->id)
-        ->orderBy("created_at", "desc")
+        ->orderBy("created_at")
         ->paginate();
     return view('category.index', ['categories' => $categories]);
     }
@@ -29,7 +29,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Category::create($request->all());
+        $category = new Category();
+        $category->name = $request->name;  
+        $category->save();
         return redirect()->route('category.index');
     }
 
@@ -54,7 +56,8 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $category->update($request->all());
+        $category->name = $request->name;
+        $category->save();
         return redirect()->route('category.index');
     }
 

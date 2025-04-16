@@ -4,7 +4,7 @@
             <form action="{{ route('category.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Title" name="title" required>
+                    <input type="text" class="form-control" placeholder="Title" name="name" required>
                 </div>
                 <button class="btn btn-primary">Agregar categoria</button>
             </form>
@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <input type="text" class="form-control" name="title" value="{{ $category->name }}" required>
+                                            <input type="text" class="form-control" name="name" value="{{ $category->name }}" required>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
