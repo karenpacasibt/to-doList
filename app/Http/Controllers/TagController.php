@@ -10,9 +10,9 @@ class TagController extends Controller
     public function index()
     {
         $tags = Tag::query()
-        ->orderBy("created_at","desc")
-        ->paginate();
-        return view("tag.index", ["tags"=>$tags]);
+            ->orderBy("created_at", "desc")
+            ->paginate();
+        return view("tag.index", ["tags" => $tags]);
     }
 
     public function create()
@@ -25,38 +25,41 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        return view('tag.show');
+        Tag::create($request->all());
+        return redirect()->route('tag.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Tag $tag)
     {
-        return view('tag.');
+        return view('tag.show', ['tag'=> $tag]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Tag $tag)
     {
-        return view('tag.');
+        return view('tag.edit', ['tag' => $tag]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Tag $tag)
     {
-        return view('tag.');
+        $tag->update($request->all());
+        return redirect()->route('tag.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Tag $tag)
     {
-        return view('tag.');
+        $tag->delete();
+        return redirect()->route('tag.index');
     }
 }

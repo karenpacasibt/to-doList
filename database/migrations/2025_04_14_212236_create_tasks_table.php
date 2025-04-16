@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('description');
-            $table->boolean('status');
+            $table->boolean('status')->default(false);
             $table->foreignId('id_category')->constrained('categories');
            // $table->foreignId('id_user')->constrained('users');
             $table->timestamps();

@@ -10,6 +10,12 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'task', 'id_user'
+        'task',
+        'id_user'
     ];
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 }
