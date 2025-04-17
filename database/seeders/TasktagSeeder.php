@@ -12,7 +12,7 @@ class TasktagSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table("tasktags")->insert ([
+        DB::table("tag_task")->insert ([
             ['id_task' => 1, 'id_tag' => 1],
             ['id_task' => 1, 'id_tag' => 2],
             ['id_task' => 2, 'id_tag' => 3],
