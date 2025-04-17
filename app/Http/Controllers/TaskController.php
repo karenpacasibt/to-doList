@@ -10,9 +10,6 @@ use Illuminate\Validation\ValidationException;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
 
     public function index(Request $request)
     {
@@ -22,7 +19,6 @@ class TaskController extends Controller
         }
 
         $tasks = Task::query()
-            
             ->orderBy("created_at")
             ->paginate();
         $categories = Category::all();
@@ -30,7 +26,7 @@ class TaskController extends Controller
             'tasks' => $tasks,
             'categories' => $categories,
             'id_category' => $request->id_category,
-            'tags'=>Tag::all(),
+            'tags' => Tag::all(),
         ]);
     }
 
@@ -38,7 +34,10 @@ class TaskController extends Controller
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('task.create',compact('categories','tags'));
+        return view('task.create', [
+            'categories' => $categories,
+            'tags' => $tags,
+        ]);
     }
 
     public function store(Request $request)
@@ -57,8 +56,8 @@ class TaskController extends Controller
         $task->id_category = $request->id_category;
         $task->status = $request->has('status');
         $task->save();
-        if( $request->has('tags')){
-            $task ->tags()->attach( $request->tags );
+        if ($request->has('tags')) {
+            $task->tags()->attach($request->tags);
         }
         return redirect()->route('task.index');
     }
@@ -70,14 +69,11 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
-        $tags = Tag::all(); 
+        $tags = Tag::all();
         $task->load('tags');
         return view('task.edit', compact('task', 'tags'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Task $task)
     {
         $validated = $request->validate([

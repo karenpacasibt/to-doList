@@ -19,17 +19,18 @@
                 </div>
                 <div class="mb-3">
                     <p><strong>Selecciona las etiquetas correspondientes:</strong></p>
-                    
                     @foreach($tags as $tag)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" 
-                                name="tags[]" 
-                                value="{{ $tag->id }}" 
-                                id="tag_{{ $tag->id }}"
-                                {{ (isset($task) && $task->tags->contains($tag->id)) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="tag_{{ $tag->id }}">
-                                {{ $tag->name }}
-                            </label>
+                        <div class="col-md-4">
+                            <div class="form-check ">
+                                <input class="form-check-input" type="checkbox" 
+                                    name="tags[]" 
+                                    value="{{ $tag->id }}" 
+                                    id="tag_{{ $tag->id }}"
+                                    {{ (isset($task) && $task->tags->contains($tag->id)) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="tag_{{ $tag->id }}">
+                                    {{ $tag->name }}
+                                </label>
+                            </div>
                         </div>
                     @endforeach
                 </div>
