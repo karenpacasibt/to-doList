@@ -61,9 +61,7 @@
                             <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTaskModal{{ $task->id }}"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>
-
-                    
-                    
+                   
                     <!--MODAL PARA VISUALIZAR LAS TAREAS-->
                     <div class="modal fade" id="viewTaskModal{{ $task->id }}" tabindex="-1">
                         <div class="modal-dialog">
@@ -78,10 +76,7 @@
                                     @php
                                         $categoryName = $categories->firstWhere('id', $task->id_category)->name ?? 'Sin categoría';
                                     @endphp
-
                                     <p>{{ $categoryName }}</p>
-                                    {{-- <p>{{ ($category->id == $task->id_category) ? $category->name :'Sin categoria' }}</p> --}}
-                                    {{-- <p>CATEGORIA. {{ App\Models\Category::where('id', $task->id_category)->first()->name }}</p> --}}
                                 </div>
                             </div>
                         </div>
