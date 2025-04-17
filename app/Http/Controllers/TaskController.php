@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Laravel\Prompts\Note;
+use Illuminate\Validation\ValidationException;
 
 class TaskController extends Controller
 {
@@ -43,7 +44,6 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        
         $task = new Task();
         $task->title = $request->title;
         $task->description = $request->description;
@@ -54,17 +54,11 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        //if($task->user_id !==request()->user()->id){
-        //   abort(403);
-        //}
         return view('task.show', ['task' => $task]);
     }
 
     public function edit(Task $task)
     {
-        //if($task->user_id !==request()->user()->id){
-        //   abort(403);
-        //}
         return view('task.edit', ['task' => $task]);
     }
 
@@ -73,7 +67,19 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'id_category' => 'nullable|integer',
+        ]);
+
+        if (
+            $task->title === $validated['title'] &&
+            $task->description === $validated['description'] &&
+            $task->id_category == $validated['id_category']
+        ) {
+            return back();
+        }
         $task->title = $request->title;
         $task->description = $request->description;
         $task->id_category = $request->id_category;
@@ -82,9 +88,6 @@ class TaskController extends Controller
     }
     public function destroy(Task $task)
     {
-        //if($task->user_id !==request()->user()->id){
-        //    abort(403);
-        //}
         $task->delete();
         return redirect()->route('task.index');
     }
