@@ -23,6 +23,12 @@ Route::redirect('/','/task')->name('dashboard');
     Route::resource('tag', TagController::class);
     Route::resource('category', CategoryController::class);
 
+
+    Route::get('prueba',function (){
+        $task = Task::find(2);
+       // $task-> tags()->attach([1,2,3]);
+        return $task->tags;
+    });
 //});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
