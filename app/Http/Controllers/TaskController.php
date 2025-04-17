@@ -44,13 +44,6 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //to-do:validar imput o request
-        // $request->validate([
-        //     'title' => 'required',
-        //     'description' => 'required',
-        //     'id_category' => 'nullable|integer',
-        // ]);
-        return 1;
         $task = new Task();
         $task->title = $request->title;
         $task->description = $request->description;
@@ -61,17 +54,11 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        //if($task->user_id !==request()->user()->id){
-        //   abort(403);
-        //}
         return view('task.show', ['task' => $task]);
     }
 
     public function edit(Task $task)
     {
-        //if($task->user_id !==request()->user()->id){
-        //   abort(403);
-        //}
         return view('task.edit', ['task' => $task]);
     }
 
@@ -80,14 +67,12 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //validar
-        //si son lo mismo 
-        // $validated = $request->validate([
-        //     'title' => 'required|string',
-        //     'description' => 'required|string',
-        //     'id_category' => 'nullable|integer',
-        // ]);
-        return 1;
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'id_category' => 'nullable|integer',
+        ]);
+
         if (
             $task->title === $validated['title'] &&
             $task->description === $validated['description'] &&
@@ -103,9 +88,6 @@ class TaskController extends Controller
     }
     public function destroy(Task $task)
     {
-        //if($task->user_id !==request()->user()->id){
-        //    abort(403);
-        //}
         $task->delete();
         return redirect()->route('task.index');
     }
