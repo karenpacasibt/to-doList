@@ -56,7 +56,6 @@ class TaskController extends Controller
         $task->id_category = $request->id_category;
         $task->status = $request->has('status');
         $task->save();
-
         if ($request->has('tags')) {
             $task->tags()->attach($request->tags);
         }
@@ -79,7 +78,6 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task)
     {
-
         $validated = $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
@@ -106,7 +104,6 @@ class TaskController extends Controller
         $task->title = $request->title;
         $task->description = $request->description;
         $task->id_category = $request->id_category;
-        $task->status = $request->has('status');
         $task->save();
         $task->tags()->sync($request->tags ?? []);
         return redirect()->route('task.index');
