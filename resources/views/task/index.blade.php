@@ -28,8 +28,55 @@
                 </select>
                 <button class="btn btn-primary">Agregar tarea</button>
             </form>  --}}
-            <a href="{{ route('task.create') }}" class="btn btn-secondary btn-lg active" role="button"
-                aria-pressed="true">New Task</a>
+
+            </form> 
+                @foreach ($tasks as $task)
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                        <div>
+                            
+                            <input class="form-check-input" type="checkbox" name="status" id="status"
+                            {{ isset($task) && $task->status ? 'checked' : '' }}>
+                            <strong>{{ $task->id }}</strong>
+                            <span class="ms-2">TAREA: {{ $task->title }}</span><br>
+                            <small class="text-muted">{{ Str::words($task->description, 20) }}</small>
+                            <div class="d-flex flex-row bd-highlight mb-3 gap-2">
+                                @foreach($tags as $tag)
+                                    @if($task->tags->contains($tag->id))
+                                        <p class="mb-2 badge bg-primary text-wrap rounded-pill"> 
+                                            {{$tag->name}}
+                                        </p>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewTaskModal{{ $task->id }}"><i class="fas fa-eye"></i></button>
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTaskModal{{ $task->id }}"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTaskModal{{ $task->id }}"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+
+                    
+                    
+                    <!--MODAL PARA VISUALIZAR LAS TAREAS-->
+                    <div class="modal fade" id="viewTaskModal{{ $task->id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Ver tarea #{{ $task->id }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h2>{{ $task->title }}</h2> 
+                                    <p>{{ $task->description }}</p>
+                                    @php
+                                        $categoryName = $categories->firstWhere('id', $task->id_category)->name ?? 'Sin categoría';
+                                    @endphp
+                                    <p>{{ $categoryName }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
             @foreach ($tasks as $task)
                 <div class="d-flex justify-content-between align-items-center border-bottom py-2"
