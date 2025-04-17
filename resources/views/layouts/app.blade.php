@@ -37,22 +37,6 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                new TomSelect("#tags-select", {
-                    plugins: ['remove_button'],
-                    placeholder: "Selecciona etiquetas...",
-                    persist: false,
-                    create: false,
-                    maxItems: null,
-                    allowEmptyOption: true,
-                    render: {
-                        option: function(data, escape) {
-                            return `<div class="option">${escape(data.text)}</div>`;
-                        }
-                    }
-                });
-            });
-        </script>
+        @yield('scripts')
     </body>
 </html>
