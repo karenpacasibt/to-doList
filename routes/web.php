@@ -5,6 +5,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Task;
 
 Route::redirect('/','/task')->name('dashboard');
 //ESTA PARTE ES PARA AUTENTIFIACION DE USUARIOS PERO SE COMENATAC PARA HACER PRUEBAS
@@ -22,6 +23,12 @@ Route::redirect('/','/task')->name('dashboard');
     Route::resource('tag', TagController::class);
     Route::resource('category', CategoryController::class);
 
+
+    Route::get('prueba',function (){
+        $task = Task::find(2);
+       // $task-> tags()->attach([1,2,3]);
+        return $task->tags;
+    });
 //});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
