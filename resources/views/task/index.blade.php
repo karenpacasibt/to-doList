@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="container py-4">
         <div class="card p-4 shadow-sm">
-
             {{-- Botón para crear nueva tarea --}}
             <a href="{{ route('task.create') }}" 
                class="btn btn-secondary btn-lg active mb-3" 
@@ -34,6 +33,7 @@
                                     </p>
                                 @endif
                             @endforeach
+
                         </div>
                     </div>
 
