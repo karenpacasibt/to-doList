@@ -17,26 +17,17 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="mb-3">
-                    <p><strong>Selecciona las etiquetas correspondientes:</strong></p>
+                <select id="tags-select" name="tags[]" multiple class="form-control">
                     @foreach($tags as $tag)
-                        <div class="col-md-4">
-                            <div class="form-check ">
-                                <input class="form-check-input" type="checkbox" 
-                                    name="tags[]" 
-                                    value="{{ $tag->id }}" 
-                                    id="tag_{{ $tag->id }}"
-                                    {{ (isset($task) && $task->tags->contains($tag->id)) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="tag_{{ $tag->id }}">
-                                    {{ $tag->name }}
-                                </label>
-                            </div>
-                        </div>
+                        <option value="{{ $tag->id }}"
+                            {{ (isset($task) && $task->tags->contains($tag->id)) ? 'selected' : '' }}>
+                            {{ $tag->name }}
+                        </option>
                     @endforeach
-                </div>
+                </select>
+                
                 <button class="btn btn-primary">Agregar tarea</button>
-            </form>
-            
+            </form> 
                 @foreach ($tasks as $task)
                     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
                         <div>
@@ -108,23 +99,20 @@
                                                 @foreach ($categories as $category)
                                                     <option value="{{ $category->id }}"{{ $category->id == $task->id_category ? 'selected' : '' }}>
                                                         {{ $category->name }}</option>
-                                                    
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="mb-3">
-                                            <p>Selecciona las etiquetas correspondientes</p>
-                                            <select name="tags[]" multiple>
-                                                @foreach($tags as $tag)
-                                                    <option value="{{ $tag->id }}"
-                                                        {{ (isset($task) && $task->tags->contains($tag->id)) ? 'selected' : '' }}>
-                                                        {{ $tag->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        <p><strong>Selecciona las etiquetas correspondientes:</strong></p>
+                                        <select id="tags-select" name="tags[]" multiple class="form-control">
+                                            @foreach($tags as $tag)
+                                                <option value="{{ $tag->id }}"
+                                                    {{ (isset($task) && $task->tags->contains($tag->id)) ? 'selected' : '' }}>
+                                                    {{ $tag->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>                                        
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-warning">Actualizar</button>
