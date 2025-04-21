@@ -26,6 +26,7 @@
                         </option>
                     @endforeach
                 </select>
+
                 <button class="btn btn-primary">Agregar tarea</button>
             </form>  --}}
 
@@ -55,6 +56,7 @@
                             <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTaskModal{{ $task->id }}"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>
+
                     <!--MODAL PARA VISUALIZAR LAS TAREAS-->
                     <div class="modal fade" id="viewTaskModal{{ $task->id }}" tabindex="-1">
                         <div class="modal-dialog">
