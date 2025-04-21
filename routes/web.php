@@ -5,6 +5,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Task;
 
 Route::redirect('/','/task')->name('dashboard');
 //ESTA PARTE ES PARA AUTENTIFIACION DE USUARIOS PERO SE COMENATAC PARA HACER PRUEBAS

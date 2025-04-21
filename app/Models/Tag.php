@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     use HasFactory;
+    protected $fillable = ['name'];
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class, 'tag_task', 'id_tag', 'id_task');
+    }
 }
