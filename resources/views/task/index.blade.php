@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container py-4">
         <div class="card p-4 shadow-sm">
-            <form action="{{ route('task.store') }}" method="POST">
+            {{-- <form action="{{ route('task.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Title" name="title">
@@ -17,26 +17,18 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="mb-3">
-                    <p><strong>Selecciona las etiquetas correspondientes:</strong></p>
+                <select id="tags-select" name="tags[]" multiple class="form-control">
                     @foreach($tags as $tag)
-                        <div class="col-md-4">
-                            <div class="form-check ">
-                                <input class="form-check-input" type="checkbox" 
-                                    name="tags[]" 
-                                    value="{{ $tag->id }}" 
-                                    id="tag_{{ $tag->id }}"
-                                    {{ (isset($task) && $task->tags->contains($tag->id)) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="tag_{{ $tag->id }}">
-                                    {{ $tag->name }}
-                                </label>
-                            </div>
-                        </div>
+                        <option value="{{ $tag->id }}"
+                            {{ (isset($task) && $task->tags->contains($tag->id)) ? 'selected' : '' }}>
+                            {{ $tag->name }}
+                        </option>
                     @endforeach
-                </div>
+                </select>
+                
                 <button class="btn btn-primary">Agregar tarea</button>
-            </form>
-            
+            </form> --}}
+                <a class="btn btn-primary" href="{{ route('task.create') }}" role="button">New Task</a>
                 @foreach ($tasks as $task)
                     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
                         <div>
@@ -62,7 +54,7 @@
                             <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTaskModal{{ $task->id }}"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>
-                   
+                    
                     <!--MODAL PARA VISUALIZAR LAS TAREAS-->
                     <div class="modal fade" id="viewTaskModal{{ $task->id }}" tabindex="-1">
                         <div class="modal-dialog">
@@ -115,17 +107,15 @@
                                         </div>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="mb-3">
-                                            <p>Selecciona las etiquetas correspondientes</p>
-                                            <select name="tags[]" multiple>
-                                                @foreach($tags as $tag)
-                                                    <option value="{{ $tag->id }}"
-                                                        {{ (isset($task) && $task->tags->contains($tag->id)) ? 'selected' : '' }}>
-                                                        {{ $tag->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        <p><strong>Selecciona las etiquetas correspondientes:</strong></p>
+                                        <select id="tags-select" name="tags[]" multiple class="form-control">
+                                            @foreach($tags as $tag)
+                                                <option value="{{ $tag->id }}"
+                                                    {{ (isset($task) && $task->tags->contains($tag->id)) ? 'selected' : '' }}>
+                                                    {{ $tag->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>                                        
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-warning">Actualizar</button>

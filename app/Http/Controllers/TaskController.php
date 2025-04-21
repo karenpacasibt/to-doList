@@ -20,7 +20,7 @@ class TaskController extends Controller
 
         $tasks = Task::query()
             ->orderBy("created_at")
-            ->paginate();
+            ->get();
         $categories = Category::all();
         return view('task.index', [
             'tasks' => $tasks,
@@ -84,17 +84,22 @@ class TaskController extends Controller
             'tags' => 'array',
             'tags.*' => 'integer|exists:tags,id',
         ]);
+
+        $currentTagIds = $task->tags->pluck('id')->sort()->values()->toArray();
+        $newTagIds = collect($validated['tags'] ?? [])->sort()->values()->toArray();
         if (
             $task->title === $validated['title'] &&
             $task->description === $validated['description'] &&
-            $task->id_category == $validated['id_category']
-        ) {
+            $task->id_category == $validated['id_category'] &&
+            $currentTagIds === $newTagIds
+        ) { 
             return back();
         }
         $task->title = $request->title;
         $task->description = $request->description;
         $task->id_category = $request->id_category;
         $task->save();
+        \Log::info($request->tags);
         $task->tags()->sync($request->tags ?? []);
         return redirect()->route('task.index');
     }
