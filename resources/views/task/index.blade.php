@@ -1,7 +1,8 @@
 <x-app-layout>
     <div class="container py-4">
         <div class="card p-4 shadow-sm">
-            <form action="{{ route('task.store') }}" method="POST">
+            {{--COMMENT ON THE REGISTRATION AND EDITING FORMS--}}
+            {{-- <form action="{{ route('task.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <input type="text" class="form-control" placeholder="Title" name="title">
@@ -25,13 +26,13 @@
                         </option>
                     @endforeach
                 </select>
-                
                 <button class="btn btn-primary">Agregar tarea</button>
-            </form> 
+            </form>  --}}
+            <a href="{{ route('task.create') }}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">New Task</a>
+
                 @foreach ($tasks as $task)
                     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
                         <div>
-                            
                             <input class="form-check-input" type="checkbox" name="status" id="status"
                             {{ isset($task) && $task->status ? 'checked' : '' }}>
                             <strong>{{ $task->id }}</strong>
@@ -47,9 +48,9 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div>
+                        <div>                            
                             <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#viewTaskModal{{ $task->id }}"><i class="fas fa-eye"></i></button>
-                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTaskModal{{ $task->id }}"><i class="fas fa-edit"></i></button>
+                            <a href="{{ route('task.edit', $task->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
                             <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTaskModal{{ $task->id }}"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>
@@ -74,7 +75,7 @@
                     </div>
 
                     <!--MODAL PARA EDITAR-->
-                    <div class="modal fade" id="editTaskModal{{ $task->id }}" tabindex="-1">
+                    {{-- <div class="modal fade" id="editTaskModal{{ $task->id }}" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <form action="{{ route('task.update', $task) }}" method="POST">
@@ -117,10 +118,10 @@
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-warning">Actualizar</button>
                                     </div>
-                                </form>
+                                </form> 
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- MODAL PARA ELIMINAR UNA TAREA -->
                     <div class="modal fade" id="deleteTaskModal{{ $task->id }}" tabindex="-1">
