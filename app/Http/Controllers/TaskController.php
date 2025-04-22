@@ -106,6 +106,6 @@ class TaskController extends Controller
     {
         $task->tags()->detach();
         $task->delete();
-        return redirect()->route('task.index');
+        return $task;
     }
 }
