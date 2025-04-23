@@ -32,7 +32,8 @@
                 aria-pressed="true">New Task</a>
 
             @foreach ($tasks as $task)
-                <div class="d-flex justify-content-between align-items-center border-bottom py-2" id="task-{{ $task->id }}">
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2"
+                    id="task-{{ $task->id }}">
                     <div>
                         <input class="form-check-input" type="checkbox" name="status" id="status"
                             {{ isset($task) && $task->status ? 'checked' : '' }}>
@@ -159,19 +160,16 @@
                         if (!confirm('¿Esta seguro de eliminar esta tarea?'))
                             return;
                         fetch(`/task/${id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                                },
-                            }).then(res => {
-                                console.log("res", res);
-                                console.log("res.ok", res.ok);
-                                console.log(document.getElementById(`task-${id}`));
-                                if (!res.ok) {
-                                    alert("Something went wrong");
-                                }
-                                document.getElementById(`task-${id}`).remove();
-                            });
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            },
+                        }).then(res => {
+                            if (!res.ok) {
+                                alert("Something went wrong");
+                            }
+                            document.getElementById(`task-${id}`).remove();
+                        });
                     }
                 </script>
             @endsection
