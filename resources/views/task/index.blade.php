@@ -32,7 +32,8 @@
                 aria-pressed="true">New Task</a>
 
             @foreach ($tasks as $task)
-                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2"
+                    id="task-{{ $task->id }}">
                     <div>
                         <input class="form-check-input" type="checkbox" name="status" id="status"
                             {{ isset($task) && $task->status ? 'checked' : '' }}>
@@ -54,8 +55,10 @@
                             data-bs-target="#viewTaskModal{{ $task->id }}"><i class="fas fa-eye"></i></button>
                         <a href="{{ route('task.edit', $task->id) }}" class="btn btn-warning btn-sm"><i
                                 class="fas fa-pen"></i></a>
-                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        {{-- <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
                             data-bs-target="#deleteTaskModal{{ $task->id }}"><i
+                                class="fas fa-trash-alt"></i></button> --}}
+                        <button class="btn btn-danger btn-sm" onclick="deleteTask({{ $task->id }})"><i
                                 class="fas fa-trash-alt"></i></button>
                     </div>
                 </div>
@@ -130,7 +133,7 @@
                     </div> --}}
 
                 <!-- MODAL PARA ELIMINAR UNA TAREA -->
-                <div class="modal fade" id="deleteTaskModal{{ $task->id }}" tabindex="-1">
+                {{-- <div class="modal fade" id="deleteTaskModal{{ $task->id }}" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form action="{{ route('task.destroy', $task) }}" method="POST">
@@ -149,8 +152,27 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             @endforeach
+            @section('scripts')
+                <script>
+                    function deleteTask(id) {
+                        if (!confirm('¿Esta seguro de eliminar esta tarea?'))
+                            return;
+                        fetch(`/task/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            },
+                        }).then(res => {
+                            if (!res.ok) {
+                                alert("Something went wrong");
+                            }
+                            document.getElementById(`task-${id}`).remove();
+                        });
+                    }
+                </script>
+            @endsection
 
         </div>
 
