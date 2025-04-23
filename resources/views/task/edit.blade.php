@@ -1,7 +1,7 @@
 
 <x-app-layout>
     <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
-        <form action="{{ route('task.store') }}" method="POST">
+        <form action="{{ route('task.update', $task) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-4">

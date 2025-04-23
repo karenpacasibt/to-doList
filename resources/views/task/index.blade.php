@@ -34,8 +34,9 @@
             @foreach ($tasks as $task)
                 <div class="d-flex justify-content-between align-items-center border-bottom py-2"
                     id="task-{{ $task->id }}">
-                    <div>
-                        <input class="form-check-input" type="checkbox" name="status" id="status"
+                    <div id="content-{{ $task->id }}">
+                        <input class="form-check-input" type="checkbox" name="status" id="status-{{ $task->id }}"
+                            onchange="markTask(this, {{ $task->id }})"
                             {{ isset($task) && $task->status ? 'checked' : '' }}>
                         <strong>{{ $task->id }}</strong>
                         <span class="ms-2">TAREA: {{ $task->title }}</span><br>
@@ -170,6 +171,30 @@
                             }
                             document.getElementById(`task-${id}`).remove();
                         });
+                    }
+
+                    function markTask(checkbox, id) {
+                        const content = document.getElementById(`content-${id}`);
+
+                        if (checkbox.checked) {
+                            content.children[2].style.textDecoration = 'line-through';
+                            content.children[4].style.textDecoration = 'line-through';
+                        } else {
+                            content.children[2].style.textDecoration = 'none';
+                            content.children[4].style.textDecoration = 'none';
+                        }
+
+                        fetch(`/task/${id}/status`, {
+                            method: 'PATCH',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                status: checkbox.checked ? 1 : 0
+                            })
+                        })
                     }
                 </script>
             @endsection
