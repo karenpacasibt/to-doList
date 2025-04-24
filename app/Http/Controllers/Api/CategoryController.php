@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'string'
+            'name' => 'required|string'
         ]);
 
         $category = new Category();
@@ -39,14 +39,11 @@ class CategoryController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $category = Category::find($id);
-        if (!$category) {
-            return response()->json(404);
-        }
+        $category = Category::findOrFail($id);
         $validated = $request->validate([
-            'name' => 'string'
+            'name' => 'required|string'
         ]);
-        $category->name = $request->name;
+        $category->name = $validated['name'];
         $category->save();
         $data = [
             'data' => $category
