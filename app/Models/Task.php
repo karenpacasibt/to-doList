@@ -15,7 +15,7 @@ class Task extends Model
     ];
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'id_category');
     }
     //Relacion muchos a muchos con Tag
     public function tags(){
