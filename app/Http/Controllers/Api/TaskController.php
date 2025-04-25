@@ -62,6 +62,17 @@ class TaskController extends Controller
             'tags' => 'array',
             'tags.*' => 'integer|exists:tags,id',
         ]);
+        $task = Task::findOrFail($id);
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->id_category = $request->id_category;
+        $task->status = $request->boolean('status');
+        $task->save();
+        if ($request->has('tags')) {
+            $task->tags()->sync($request->tags);
+        }
+        $task = Task::with(['category', 'tags'])->find($task->id);
+        return response()->json(['data' => $task]);
     }
 
     public function destroy($id)
