@@ -8,4 +8,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource("category", CategoryController::class);
 
-Route::apiResource("task", TaskController::class);
+Route::apiResource("tag", TagController::class);
