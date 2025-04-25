@@ -17,6 +17,7 @@ class CategoryController extends Controller
         ];
         return response()->json($data, 200);
     }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -29,6 +30,7 @@ class CategoryController extends Controller
         return response()->json(['data' => $category], 201);
 
     }
+
     public function show($id)
     {
         $category = Category::findOrFail($id);
@@ -37,6 +39,7 @@ class CategoryController extends Controller
         ];
         return response()->json($data, 200);
     }
+
     public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
@@ -50,6 +53,7 @@ class CategoryController extends Controller
         ];
         return response()->json($data, 201);
     }
+    
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
