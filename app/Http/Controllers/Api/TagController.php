@@ -12,11 +12,8 @@ class TagController extends Controller
 {
     public function index()
     {
-        $tags = Tag::all();
-        $data = [
-            "data" => $tags
-        ];
-        return response()->json($data, 200);
+        $tags = Tag::paginate(10);
+        return response()->json($tags, 200);
     }
 
     public function store(Request $request)
