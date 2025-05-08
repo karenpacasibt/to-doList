@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 class TagController extends Controller
@@ -21,7 +22,7 @@ class TagController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            "name" => "required|string"
+            "name" => "required|string|unique:tags,name"
         ]);
         $tag = new Tag();
         $tag->name = $validated["name"];
@@ -39,13 +40,15 @@ class TagController extends Controller
     {
         $tag = Tag::findOrFail($id);
         $validated = $request->validate([
-            'name' => 'required|string'
+            'name' => 'required',
+            'string',
+            Rule::unique('tags')->ignore($id),
         ]);
         $tag->name = $validated['name'];
         $tag->save();
         return response()->json(['data' => $tag], 201);
     }
-    
+
     public function destroy($id)
     {
         $tag = Tag::findOrFail($id);
