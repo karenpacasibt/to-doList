@@ -5,23 +5,21 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
-        $data = [
-            'data' => $categories
-        ];
-        return response()->json($data, 200);
+        $categories = Category::paginate(10);
+        return response()->json($categories, 200);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string'
+            'name' => 'required|string|unique:categories,name'
         ]);
 
         $category = new Category();
@@ -44,16 +42,20 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $validated = $request->validate([
-            'name' => 'required|string'
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('categories')->ignore($id)
+            ]
         ]);
         $category->name = $validated['name'];
         $category->save();
         $data = [
             'data' => $category
         ];
-        return response()->json($data, 201);
+        return response()->json($data, 200);
     }
-    
+
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
@@ -61,6 +63,6 @@ class CategoryController extends Controller
         $data = [
             'data' => $category
         ];
-        return response()->json($data,201);
+        return response()->json($data, 201);
     }
 }
