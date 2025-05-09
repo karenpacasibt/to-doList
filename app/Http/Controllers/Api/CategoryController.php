@@ -42,16 +42,18 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $validated = $request->validate([
-            'name' => 'required',
-            'string',
-            Rule::unique('categories')->ignore($id),
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('categories')->ignore($id)
+            ]
         ]);
         $category->name = $validated['name'];
         $category->save();
         $data = [
             'data' => $category
         ];
-        return response()->json($data, 201);
+        return response()->json($data, 200);
     }
 
     public function destroy($id)
