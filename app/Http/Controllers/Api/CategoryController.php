@@ -12,11 +12,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
-        $data = [
-            'data' => $categories
-        ];
-        return response()->json($data, 200);
+        $categories = Category::paginate(10);
+        return response()->json($categories, 200);
     }
 
     public function store(Request $request)
