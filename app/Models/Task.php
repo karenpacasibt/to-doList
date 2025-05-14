@@ -19,7 +19,7 @@ class Task extends Model
     }
     //Relacion muchos a muchos con Tag
     public function tags(){
-        return $this->belongsToMany(Tag::class,'tag_task','id_tag','id_task');
+        return $this->belongsToMany(Tag::class,'tag_task','id_task', 'id_tag');
     }
 
 }

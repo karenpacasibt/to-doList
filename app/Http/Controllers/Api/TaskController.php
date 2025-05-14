@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
 {
@@ -15,13 +16,13 @@ class TaskController extends Controller
             $query->where('id_category', $request->id_category);
         }
         $tasks = $query->paginate(10);
-        return response()->json(['data' => $tasks]);
+        return response()->json($tasks);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string',
+            'title' => 'required|string|unique:tasks,title',
             'description' => 'required|string',
             'id_category' => 'nullable|integer|exists:tags,id',
             'status' => 'nullable|boolean',
@@ -41,7 +42,7 @@ class TaskController extends Controller
 
         $task->load(['category', 'tags']);
 
-        return response()->json(['data' => $task], 201);
+        return response()->json(['data' => $task], 200);
     }
 
     public function show($id)
@@ -53,7 +54,10 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required',
+            'title' => [
+                'required',
+                Rule::unique('tasks')->ignore($id)
+            ],
             'description' => 'required',
             'id_category' => 'nullable|integer',
             'status' => 'nullable|boolean',
