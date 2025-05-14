@@ -16,7 +16,7 @@ class TaskController extends Controller
             $query->where('id_category', $request->id_category);
         }
         $tasks = $query->paginate(10);
-        return response()->json($tasks);
+        return response()->json(['data' => $tasks]);
     }
 
     public function store(Request $request)
