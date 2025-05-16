@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tag_task', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_task');
-            $table->foreignId('id_tag');
+            $table->foreignId('id_tag')->onDelete('set null');
             $table->timestamps();
         });
     }

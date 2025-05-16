@@ -9,14 +9,18 @@ use Illuminate\Validation\Rule;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
     public function index(Request $request)
     {
         $query = Task::with(['category', 'tags']);
         if ($request->filled('id_category')) {
             $query->where('id_category', $request->id_category);
         }
-        $tasks = $query->paginate(10);
-        return response()->json(['data' => $tasks]);
+        $tasks = $query->paginate(8);
+        return response()->json($tasks);
     }
 
     public function store(Request $request)
@@ -33,6 +37,7 @@ class TaskController extends Controller
         $task->title = $request->title;
         $task->description = $request->description;
         $task->id_category = $request->id_category;
+        $task->user_id = auth()->id();
         $task->status = $request->boolean('status');
         $task->save();
 
@@ -55,24 +60,29 @@ class TaskController extends Controller
     {
         $request->validate([
             'title' => [
-                'required',
+                'string',
                 Rule::unique('tasks')->ignore($id)
             ],
-            'description' => 'required',
+            'description' => 'string',
             'id_category' => 'nullable|integer',
-            'status' => 'nullable|boolean',
+            'status' => 'sometimes|nullable|boolean',
             'tags' => 'array',
             'tags.*' => 'integer|exists:tags,id',
         ]);
         $task = Task::findOrFail($id);
-        $task->title = $request->title;
-        $task->description = $request->description;
-        $task->id_category = $request->id_category;
-        $task->status = $request->boolean('status');
+        if ($request->has('title'))
+            $task->title = $request->title;
+        if ($request->has('description'))
+            $task->description = $request->description;
+        if ($request->has('id_category'))
+            $task->id_category = $request->id_category;
+        if ($request->has('status'))
+            $task->update($request->only('status'));
         $task->save();
         if ($request->has('tags')) {
             $task->tags()->sync($request->tags);
         }
+
         $task = Task::with(['category', 'tags'])->find($task->id);
         return response()->json(['data' => $task]);
     }

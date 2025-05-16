@@ -10,6 +10,10 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['show']);
+    }
     public function index()
     {
         $categories = Category::paginate(10);
@@ -24,6 +28,7 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->name = $validated['name'];
+        $category->user_id = auth()->id();
         $category->save();
         return response()->json(['data' => $category], 201);
 
