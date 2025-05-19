@@ -10,17 +10,11 @@ use Illuminate\Validation\Rule;
 
 class TagController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum')->except(['index', 'show']);
-    }
+
     public function index()
     {
-        $tags = Tag::all();
-        $data = [
-            "data" => $tags
-        ];
-        return response()->json($data, 200);
+        $tags = Tag::paginate(10);
+        return response()->json($tags, 200);
     }
 
     public function store(Request $request)
@@ -30,7 +24,6 @@ class TagController extends Controller
         ]);
         $tag = new Tag();
         $tag->name = $validated["name"];
-        $tag->user_id = auth()->id();
         $tag->save();
         return response()->json(['data' => $tag], 200);
     }
@@ -45,9 +38,9 @@ class TagController extends Controller
     {
         $tag = Tag::findOrFail($id);
         $validated = $request->validate([
-            'name' => 'required',
+            'name' => ['required',
             'string',
-            Rule::unique('tags')->ignore($id),
+            Rule::unique('tags')->ignore($id)]
         ]);
         $tag->name = $validated['name'];
         $tag->save();
