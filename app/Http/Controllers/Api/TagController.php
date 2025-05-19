@@ -10,10 +10,7 @@ use Illuminate\Validation\Rule;
 
 class TagController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum')->except(['index', 'show']);
-    }
+
     public function index()
     {
         $tags = Tag::all();
@@ -30,7 +27,6 @@ class TagController extends Controller
         ]);
         $tag = new Tag();
         $tag->name = $validated["name"];
-        $tag->user_id = auth()->id();
         $tag->save();
         return response()->json(['data' => $tag], 200);
     }
