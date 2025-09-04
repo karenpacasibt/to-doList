@@ -4,11 +4,11 @@
             @csrf
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Título:</label>
-                <input type="text" class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Title" name="title">
+                <input type="text" class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Title" name="title" value="{{ old('title',$task->title ?? '') }}">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Descripción:</label>
-                <textarea class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Description" name="description"></textarea>
+                <textarea class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Description" name="description">{{ old('description', $task->description ?? '') }}></textarea>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Selecciona una categoría:</label>
