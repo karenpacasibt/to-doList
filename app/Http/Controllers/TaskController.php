@@ -20,7 +20,7 @@ class TaskController extends Controller
 
         $tasks = Task::query()
             ->orderBy("created_at")
-            ->paginate();
+            ->get();
         $categories = Category::all();
         return view('task.index', [
             'tasks' => $tasks,
@@ -73,7 +73,6 @@ class TaskController extends Controller
         $categories = Category::all();
         $task->load('tags');
         return view('task.edit', compact('task', 'tags', 'categories'));
-
     }
 
     public function update(Request $request, Task $task)
@@ -87,29 +86,24 @@ class TaskController extends Controller
             'tags.*' => 'integer|exists:tags,id',
         ]);
 
-        $currentTagIds = $task->tags->pluck('id')->sort()->values();
-        $newTagIds = collect($validated['tags'] ?? [])->sort()->values();
+        $currentTagIds = $task->tags->pluck('id')->sort()->values()->toArray();
+        $newTagIds = collect($validated['tags'] ?? [])->sort()->values()->toArray();
         if (
             $task->title === $validated['title'] &&
             $task->description === $validated['description'] &&
             $task->id_category == $validated['id_category'] &&
-            $currentTagIds->diff($newTagIds)->isEmpty() &&
-            $newTagIds->diff($currentTagIds)->isEmpty()
-
+            $currentTagIds === $newTagIds
         ) {
-            // Nada cambió → no guardamos
             return back()->with('info', 'No se detectaron cambios.');
         }
 
-        $task->update([
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'id_category' => $validated['id_category'],
-        ]);
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->id_category = $request->id_category;
+        $task->save();
+        $task->tags()->sync($request->tags ?? []);
+        return redirect()->route('task.index');
 
-        $task->tags()->sync($validated['tags'] ?? []);
-
-        return redirect()->route('task.index')->with('success', 'Tarea actualizada correctamente.');
     }
 
     public function destroy(Task $task)
