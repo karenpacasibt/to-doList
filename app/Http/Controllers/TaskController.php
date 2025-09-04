@@ -85,23 +85,32 @@ class TaskController extends Controller
             'tags' => 'array',
             'tags.*' => 'integer|exists:tags,id',
         ]);
+
         $currentTagIds = $task->tags->pluck('id')->sort()->values();
         $newTagIds = collect($validated['tags'] ?? [])->sort()->values();
+
         if (
             $task->title === $validated['title'] &&
             $task->description === $validated['description'] &&
             $task->id_category == $validated['id_category'] &&
-            $currentTagIds->diff($newTagIds) ===[]
+            $currentTagIds->diff($newTagIds)->isEmpty() &&
+            $newTagIds->diff($currentTagIds)->isEmpty()
         ) {
-            return back();
+            // Nada cambió → no guardamos
+            return back()->with('info', 'No se detectaron cambios.');
         }
-        $task->title = $request->title;
-        $task->description = $request->description;
-        $task->id_category = $request->id_category;
-        $task->save();
-        $task->tags()->sync($request->tags ?? []);
-        return redirect()->route('task.index');
+
+        $task->update([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'id_category' => $validated['id_category'],
+        ]);
+
+        $task->tags()->sync($validated['tags'] ?? []);
+
+        return redirect()->route('task.index')->with('success', 'Tarea actualizada correctamente.');
     }
+
     public function destroy(Task $task)
     {
         $task->tags()->detach();
@@ -117,5 +126,4 @@ class TaskController extends Controller
         $task->save();
         return response()->json(['success' => true]);
     }
-
 }

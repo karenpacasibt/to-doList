@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
         <form action="{{ route('task.update', $task) }}" method="POST">
@@ -6,11 +5,11 @@
             @method('PUT')
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Título:</label>
-                <input type="text" class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Title" name="title" value="{{ old('title', $task->title) }}" >
+                <input type="text" class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Title" name="title" value="{{ old('title',$task->title ?? '') }}">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Descripción:</label>
-                <textarea class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Description" name="description" >{{ old('description', $task->description) }}</textarea>
+                <textarea class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Description" name="description">{{ old('description', $task->description ?? '') }}></textarea>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Selecciona una categoría:</label>
@@ -20,6 +19,7 @@
                     <option value="{{ $category->id }}" {{ old('id_category', $task->id_category) == $category->id ? 'selected' : '' }}>
                         {{ $category->name }}
                     </option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -40,23 +40,5 @@
             </div>
         </form>
     </div>
-    @section('scripts')
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                new TomSelect("#tags-select", {
-                    plugins: ['remove_button'],
-                    placeholder: "Selecciona etiquetas...",
-                    persist: false,
-                    create: false,
-                    maxItems: null,
-                    allowEmptyOption: true,
-                    render: {
-                        option: function(data, escape) {
-                            return `<div class="option">${escape(data.text)}</div>`;
-                        }
-                    }
-                });
-            });
-        </script>
-    @endsection
+
 </x-app-layout>
