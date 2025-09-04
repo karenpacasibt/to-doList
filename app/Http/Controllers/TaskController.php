@@ -73,6 +73,7 @@ class TaskController extends Controller
         $categories = Category::all();
         $task->load('tags');
         return view('task.edit', compact('task', 'tags', 'categories'));
+
     }
 
     public function update(Request $request, Task $task)
@@ -88,13 +89,13 @@ class TaskController extends Controller
 
         $currentTagIds = $task->tags->pluck('id')->sort()->values();
         $newTagIds = collect($validated['tags'] ?? [])->sort()->values();
-
         if (
             $task->title === $validated['title'] &&
             $task->description === $validated['description'] &&
             $task->id_category == $validated['id_category'] &&
             $currentTagIds->diff($newTagIds)->isEmpty() &&
             $newTagIds->diff($currentTagIds)->isEmpty()
+
         ) {
             // Nada cambió → no guardamos
             return back()->with('info', 'No se detectaron cambios.');

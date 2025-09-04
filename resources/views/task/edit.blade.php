@@ -1,8 +1,7 @@
 <x-app-layout>
     <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
-        <form action="{{ route('task.update', $task) }}" method="POST">
+        <form action="{{ route('task.store') }}" method="POST">
             @csrf
-            @method('PUT')
             <div class="mb-4">
                 <label class="block text-gray-700 font-semibold mb-2">Título:</label>
                 <input type="text" class="w-full border-gray-300 rounded-md shadow-sm" placeholder="Title" name="title" value="{{ old('title',$task->title ?? '') }}">
